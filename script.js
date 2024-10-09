@@ -6,18 +6,21 @@ const allClear = document.querySelector(".all-clear");
 let isOperator = false;
 numbers.forEach((number) => {
   number.addEventListener("click", (e) => {
-    allClear.value = "C";
-    allClear.textContent = "C";
-    if (screen.value == 0) {
+    if (e.target.value == 0) {
       screen.value = e.target.value;
     } else if (isOperator) {
       isOperator = false;
       screen.value = e.target.value;
+      console.log(screen.value);
     } else if (screen.value.includes(".")) {
       screen.value = screen.value + "" + e.target.value.replace(".", "");
+      console.log(screen.value);
     } else {
+      console.log(e);
       screen.value = screen.value + e.target.value;
     }
+    allClear.value = "clear";
+    allClear.textContent = "C";
   });
 });
 
@@ -32,20 +35,26 @@ operators.forEach((operator) => {
     } else if (e.target.value == "=") {
       screen.value = eval(equation.join(""));
       equation = [];
-    } else if (e.target.value == "AC") {
+    } else if (e.target.value == "all-clear") {
       equation = [];
+      console.log(screen.value);
       screen.value = "";
-    } else if (e.target.value == "C") {
+      console.log(screen.value);
+    } else if (e.target.value == "clear") {
       screen.value = "";
       equation.pop();
-      console.log(equation);
-      allClear.value = "AC";
+      allClear.value = "all-clear";
+      console.log(allClear);
       allClear.textContent = "AC";
     } else if (e.target.value == "invert") {
-      screen.value = parseFloat(screen.value) * -1;
-      equation.pop();
-      equation.push(screen.value);
-    } else if (e.target.event == "%") {
+      if (screen.value) {
+        console.log(screen.value);
+        screen.value = parseFloat(screen.value) * -1;
+        equation.pop();
+        equation.push(screen.value);
+      }
+    } else if (e.target.value == "percent") {
+      console.log(screen.value);
       screen.value = parseFloat(screen.value) / 100;
       equation.pop();
       equation.push(screen.value);
@@ -53,6 +62,6 @@ operators.forEach((operator) => {
       equation.push(e.target.value);
     }
     isOperator = true;
-    console.log(equation);
+    //console.log(equation);
   });
 });
